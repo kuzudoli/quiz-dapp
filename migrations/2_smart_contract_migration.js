@@ -1,5 +1,5 @@
-const SmartContract = artifacts.require("SmartContract");
+const NugzNFTs = artifacts.require("NugzNFTs");
 
 module.exports = function (deployer) {
-  deployer.deploy(SmartContract);
+  deployer.deploy(NugzNFTs);
 };
