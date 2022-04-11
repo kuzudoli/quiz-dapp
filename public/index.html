@@ -1,55 +1,24 @@
 <!DOCTYPE html>
-
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nugz Nfts - NFT Collection</title>
-    <link rel="icon" href="assets/img/logo.png" type="image/x-icon" />
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <link rel="stylesheet" href="./assets/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+</head>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/fonts/fonts.css">
+<body>
+  <div id="root">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-       
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  </head>
-
-  <body class="antialiased">
-    <script>
-        //var countDownDate = new Date("April 10, 2022 06:00:00 PM UTC").getTime();
-        let countDownDate = new Date("March 22, 2022 15:29:10").getTime();
-        let isEnded = false;
-        let countDownFunc = setInterval(function() {
-          
-          let now = new Date().getTime();
-          let timeleft = countDownDate - now;
-          
-          let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-          let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-          let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-
-          if(timeleft<0){
-            if(!isEnded){
-              isEnded = true;
-              document.getElementById("countDown").innerText = "SALE STARTED!";
-            }
-          }
-          else{
-            document.getElementById("countDown").innerHTML =`${days} : ${hours} : ${minutes} : ${seconds}`;
-          }
-        }, 1000);
-    </script>
-    <div id="root"></div>
-  </body>
-
-  <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="assets/js/main.js"></script>
+  </div>
+</body>
+<script>
+  setTimeout(() => {
+        const connectBtn = document.getElementById("connectBtn");
+        connectBtn.style.pointerEvents = "all";
+        connectBtn.style.opacity = "1";
+    }, 1500);
+</script>
 </html>

@@ -1,10 +1,8 @@
 /* eslint-disable eqeqeq */
-// constants
 import Web3EthContract from "web3-eth-contract";
 import Web3 from "web3";
-import NugzNFTs from "../../contracts/NugzNFTs.json";
+import SmartContract from "../../contracts/SmartContract.json";
 import { fetchData } from "../data/dataActions";
-//import detectEthereumProvider from '@metamask/detect-provider';
 
 const connectRequest = () => {
   return {
@@ -35,49 +33,46 @@ const updateAccountRequest = (payload) => {
 
 export const connect = () => {
   return async (dispatch) => {
+
     dispatch(connectRequest());
     const { ethereum } = window;
-    //const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
     const provider = await Web3.givenProvider;
+
     if (provider) {
+      
       Web3EthContract.setProvider(ethereum);
       let web3 = new Web3(ethereum);
+
       try {
-        const accounts = await ethereum.request({
-          method: "eth_requestAccounts",
-        });
+        const accounts = await ethereum.request({ method: "eth_requestAccounts" });
         const networkId = await ethereum.request({ method: 'eth_chainId' });
-        //const NetworkData = await NugzNFTs.networks[networkId];
+
         if (networkId !== 4){
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
             params: [{ chainId: '0x4' }], // chainId must be in hexadecimal numbers
           });
         }
-        const NugzNFTsObj = new Web3EthContract(
-          NugzNFTs.abi,
-          //NetworkData.address
-          "0xAF49DC28Afda011113f563D17eEB2a69db5871CF"
+
+        const SmartContractObj = new Web3EthContract(
+          SmartContract.abi,
+          "0x9f86A3663F0085F70b430846440bb191b5F1Da5a"
         );
+
         dispatch(
           connectSuccess({
             account: accounts[0],
-            smartContract: NugzNFTsObj,
+            smartContract: SmartContractObj,
             web3: web3,
           })
         );
-        // Add listeners start
         ethereum.on("accountsChanged", (accounts) => {
           window.location.reload();
-          //dispatch(updateAccount(accounts[0]));
         });
         // Add listeners end
       } catch (err) {
         dispatch(connectFailed("Something went wrong"));
       }
-    } else {
-      window.location = "https://metamask.app.link/dapp/www.DeadCyborgApeClub.io";
-      //dispatch(connectFailed("Install Metamask."));
     }
   };
 };
@@ -89,8 +84,8 @@ export const updateAccount = (account) => {
   };
 };
 
-export const disconnect = () => {
-  return async (dispatch) => {
-    dispatch(updateAccountRequest({ account: null }));
-  };
-};
+// export const disconnect = () => {
+//   return async (dispatch) => {
+//     dispatch(updateAccountRequest({ account: null }));
+//   };
+// };

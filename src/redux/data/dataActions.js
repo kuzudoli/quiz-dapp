@@ -1,4 +1,3 @@
-// log
 import store from '../store';
 
 const fetchDataRequest = () => {
@@ -25,30 +24,22 @@ export const fetchData = (account) => {
 	return async (dispatch) => {
 		dispatch(fetchDataRequest());
 		try {
-			let name = await store.getState().blockchain.smartContract.methods.name().call();
-			let totalSupply = await store.getState().blockchain.smartContract.methods.totalSupply().call();
-			let maxSupply = await store.getState().blockchain.smartContract.methods.maxSupply().call();
-			let cost = await store.getState().blockchain.smartContract.methods.cost().call();
-			let preSaleCost = await store.getState().blockchain.smartContract.methods.preSaleCost().call();
-			let paused = await store.getState().blockchain.smartContract.methods.paused().call();
-			let preSaleActive = await store.getState().blockchain.smartContract.methods.preSaleActive().call();
-			let whitelist = await store.getState().blockchain.smartContract.methods.whitelist(store.getState().blockchain.account).call();
-			let balance = await store.getState().blockchain.smartContract.methods.getBalance().call();
+			let challengeCost = await store.getState().blockchain.smartContract.methods.challengeCost().call();
+			let challengeAnswerCount = await store.getState().blockchain.smartContract.methods.challengeAnswerCount().call();
+			let waitUserCount = await store.getState().blockchain.smartContract.methods.waitUserCount().call();
+			let question = await store.getState().blockchain.smartContract.methods.getQuestion().call();
+			// let whitelist = await store.getState().blockchain.smartContract.methods.whitelist(store.getState().blockchain.account).call();
+
+			// console.log(question);
 
 			dispatch(
 				fetchDataSuccess({
-					name,
-					totalSupply,
-					maxSupply,
-					cost,
-          			preSaleCost,
-					paused,
-          			preSaleActive,
-          			whitelist,
-					balance
+					challengeCost,
+					challengeAnswerCount,
+					waitUserCount,
+					question
 				})
 			);
-			console.log(name +":"+ totalSupply +":"+ maxSupply)
 		} catch (err) {
 			console.log(err);
 			dispatch(fetchDataFailed('Could not load data from contract.'));

@@ -2,7 +2,7 @@
 	"name": "frontend_base_dapp",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://deadcyborg.io/",
+	"homepage": "",
 	"dependencies": {
 		"@metamask/detect-provider": "^1.2.0",
 		"@openzeppelin/contracts": "^4.4.2",
