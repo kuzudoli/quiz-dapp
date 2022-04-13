@@ -7,7 +7,7 @@ import Web3 from "web3";
 
 import SmartContract from './contracts/SmartContract.json'
 
-import { ConnectButton, Question, Hints, Join } from './components/index';
+import { ConnectButton, Question, Hints, Join, WaitRoom } from './components/index';
 
 import './App.css'
 
@@ -110,7 +110,7 @@ function App() {
 
   
   if(user){
-    if(user.isJoined){
+    if(user.isJoined && question.qState){
       return(
         <div className="container">
           <Question 
@@ -123,6 +123,14 @@ function App() {
             question={question}
             user={user}
             />
+        </div>
+      )
+    }else{
+      return(
+        <div className="container">
+          <WaitRoom
+            qState={question.qState}
+          />
         </div>
       )
     }

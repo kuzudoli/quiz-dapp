@@ -23,9 +23,9 @@ contract SmartContract is Ownable{
         bool isJoined;
     }
 
-    uint public challengeCost = 0.02 ether;
+    uint public challengeCost = 0.0001 ether;
     uint public challengeAnswerCount = 2;
-    uint public waitUserCount = 3;
+    uint public waitUserCount = 2;
     
     Question public newQuestion;
     User[] public Users;
@@ -42,8 +42,11 @@ contract SmartContract is Ownable{
     {
         newQuestion = Question(_desc,_prize,_date,_hints,_answer,false,true);
 
-        for(uint i=0;i<Users.length;i++){
-            Users.pop();
+        //If users exist, clean up
+        if(Users.length > 0){
+            for(uint i=0;i<=Users.length;i++){
+                Users.pop();
+            }
         }
     }
 
@@ -86,7 +89,7 @@ contract SmartContract is Ownable{
     function checkAnswer(string memory _answer) public payable
     {   
         //Is challenge started or waiting participant?
-        require((newQuestion.qState && !newQuestion.qWait) || (!newQuestion.qState && newQuestion.qWait), "Challenge not started yet!");
+        require(newQuestion.qState && !newQuestion.qWait, "Challenge not started yet!");
         //Is Participant exist?
         require(checkParticipant(msg.sender).isJoined, "User not joined!");
         require(checkParticipant(msg.sender).uAnswerCount > 0, "User has not answer count, enough!");
@@ -96,7 +99,7 @@ contract SmartContract is Ownable{
         if(keccak256(abi.encodePacked(newQuestion.qAnswer)) == keccak256(abi.encodePacked(_answer)))
         {
             //Sending prize to winner
-            payable(msg.sender).transfer(newQuestion.qPrize);
+            payable(msg.sender).transfer(10000000000000);//0,00001
 
             //Challenge is ending
             newQuestion.qDesc = "";
@@ -108,7 +111,7 @@ contract SmartContract is Ownable{
             newQuestion.qWait = false;
 
             //Participants cleaning
-            for(uint i=0;i<Users.length;i++){
+            for(uint i=0;i<=Users.length;i++){
                 Users.pop();
             }
 

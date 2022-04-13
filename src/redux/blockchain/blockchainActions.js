@@ -56,7 +56,7 @@ export const connect = () => {
 
         const SmartContractObj = new Web3EthContract(
           SmartContract.abi,
-          "0x27Df8e2CA2dE2ADbe29D0232DB343f32ac158d2F"
+          "0xC23CBDBE150d6455DAD88f3fEFEebca3e0626364"
         );
 
         dispatch(
