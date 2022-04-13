@@ -41,6 +41,10 @@ contract SmartContract is Ownable{
         string memory _answer) public onlyOwner()
     {
         newQuestion = Question(_desc,_prize,_date,_hints,_answer,false,true);
+
+        for(uint i=0;i<Users.length;i++){
+            Users.pop();
+        }
     }
 
     // //Gets Question (for website)

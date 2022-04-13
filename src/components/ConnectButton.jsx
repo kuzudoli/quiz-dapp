@@ -8,7 +8,7 @@ const ConnectButton = () => {
     const dispatch = useDispatch();
     return (
         <div className="container">
-            <a href="/" className="connect-btn" id='connectBtn' onClick={(e) => {
+            <a href="/connect" className="connect-btn" id='connectBtn' onClick={(e) => {
                 e.preventDefault();
                 dispatch(connect());
             }}>

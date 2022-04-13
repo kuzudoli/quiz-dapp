@@ -7,7 +7,7 @@ import Web3 from "web3";
 
 import SmartContract from './contracts/SmartContract.json'
 
-import { ConnectButton, Question, Hints } from './components/index';
+import { ConnectButton, Question, Hints, Join } from './components/index';
 
 import './App.css'
 
@@ -18,13 +18,14 @@ function App() {
   // const web3 = new Web3(Web3.givenProvider);
 
   const [account, setAccount] = useState(null);
+  const [challengeCost, setChallengeCost] = useState(null)
   const [smartContract, setSmartContract] = useState(null);
   const [user, setUser] = useState(null);
   const [question,setQuestion] = useState("Question not found!");
   const [userCount,setUserCount] = useState(0);
   const [userAnswer,setUserAnswer] = useState(null);
 
-  
+  //Data load
   const loadBlockchainData = async () => {
     if (typeof window.ethereum !== 'undefined') {
       
@@ -43,7 +44,10 @@ function App() {
         
         const question = await smartContract.methods.getQuestion().call()
         setQuestion(question)
-        
+
+        const cost = await smartContract.methods.challengeCost().call()
+        setChallengeCost(cost)
+
         const usersCount = await smartContract.methods.getUsers().call();
         setUserCount(usersCount.length)
 
@@ -68,15 +72,25 @@ function App() {
 		}
 	}
   
+  //Get input value
   const getUserAnswer = () => {
     const answer = document.getElementById("answerInput").value;
     setUserAnswer(answer);
   }
+
+  //Check answer
   const checkAnswer = async () => {
     try {
-      console.log(userAnswer);
-      // await smartContract.methods.setHashData(userAnswer).send({from:account});
       await smartContract.methods.checkAnswer(userAnswer).send({from: account})
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //Join Challenge
+  const joinChallenge = async () => {
+    try {
+      await smartContract.methods.joinChallenge().send({from: account, value: challengeCost})
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +99,7 @@ function App() {
   useEffect(() => {
     //getData()
     loadBlockchainData()
-  },[blockchain.account]);
+  },[account]);
   
 
   if(blockchain.account === null && blockchain.smartContract === null){
@@ -114,7 +128,12 @@ function App() {
     }
   }else{
     return(
-      <h3>Not Joined!</h3>
+      <Join
+        question={question}
+        cost={challengeCost}
+        prize={question.qPrize}
+        join={joinChallenge}
+      />
     )
   }
   

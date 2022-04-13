@@ -196,3 +196,23 @@ body{
     margin-top: 27px;
 }
 /*HINTS SECTION END*/
+
+/*NOT JOINED PAGE*/
+.messageContainer{
+    text-align: center;
+    margin-top: 70px;
+    color: white;
+}
+#joinBtn{
+    opacity: 1;
+    pointer-events: all;
+}
+.info{
+    width: 500px;
+    margin: auto;
+    margin-top: 150px;
+}
+.info h2{
+    margin: 10px;
+}
+/*NOT JOINED PAGE END*/
