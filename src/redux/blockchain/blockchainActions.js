@@ -56,7 +56,7 @@ export const connect = () => {
 
         const SmartContractObj = new Web3EthContract(
           SmartContract.abi,
-          "0xC23CBDBE150d6455DAD88f3fEFEebca3e0626364"
+          SmartContract.networks["4"].address
         );
 
         dispatch(
@@ -83,9 +83,3 @@ export const updateAccount = (account) => {
     dispatch(fetchData(account));
   };
 };
-
-// export const disconnect = () => {
-//   return async (dispatch) => {
-//     dispatch(updateAccountRequest({ account: null }));
-//   };
-// };
