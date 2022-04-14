@@ -24,6 +24,7 @@ contract SmartContract is Ownable{
     }
 
     uint public challengeCost = 0.0001 ether;
+    uint public challengePrize = 0.0002 ether;
     uint public challengeAnswerCount = 2;
     uint public waitUserCount = 2;
     
@@ -35,27 +36,14 @@ contract SmartContract is Ownable{
     //Creates Question
     function createQuestion(
         string memory _desc, 
-        uint _prize,
         uint _date, 
         string[3] memory _hints,
         string memory _answer) public onlyOwner()
     {
-        newQuestion = Question(_desc,_prize,_date,_hints,_answer,false,true);
+        newQuestion = Question(_desc, challengePrize, _date, _hints, _answer, false, true);
 
-        //If users exist, clean up
-        if(Users.length > 0){
-            for(uint i=0;i<=Users.length;i++){
-                Users.pop();
-            }
-        }
+        clearUsers();
     }
-
-    // //Gets Question (for website)
-    // function getQuestion() public view returns(string memory, uint, uint, string[3] memory, bool, bool)
-    // {
-    //     return (newQuestion.qDesc, newQuestion.qPrize, newQuestion.qDate, 
-    //         newQuestion.qHints, newQuestion.qState, newQuestion.qWait);
-    // }
 
     function getQuestion() public view returns(Question memory)
     {
@@ -67,6 +55,14 @@ contract SmartContract is Ownable{
         return Users;
     }
 
+    function clearUsers() public {
+        //If users exist, clean up
+        if(Users.length > 0){
+            for(uint i=0;i<=Users.length;i++){
+                Users.pop();
+            }
+        }
+    }
     //Joins Challenge
     function joinChallenge() public payable
     {
@@ -99,7 +95,7 @@ contract SmartContract is Ownable{
         if(keccak256(abi.encodePacked(newQuestion.qAnswer)) == keccak256(abi.encodePacked(_answer)))
         {
             //Sending prize to winner
-            payable(msg.sender).transfer(10000000000000);//0,00001
+            payable(msg.sender).transfer(newQuestion.qPrize);//0,00001
 
             //Challenge is ending
             newQuestion.qDesc = "";
@@ -111,9 +107,7 @@ contract SmartContract is Ownable{
             newQuestion.qWait = false;
 
             //Participants cleaning
-            for(uint i=0;i<=Users.length;i++){
-                Users.pop();
-            }
+            clearUsers();
 
             //Only the last 10 winner storing
             if(Winners.length == 10){
