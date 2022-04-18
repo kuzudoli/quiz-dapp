@@ -55,6 +55,11 @@ contract SmartContract is Ownable{
         return Users;
     }
 
+    function getWinners() public view returns(address[] memory)
+    {
+        return Winners;
+    }
+
     function clearUsers() public {
         //If users exist, clean up
         if(Users.length > 0){
@@ -82,7 +87,7 @@ contract SmartContract is Ownable{
     }
     
     //Checks Answer
-    function checkAnswer(string memory _answer) public payable
+    function checkAnswer(string memory _answer) public payable returns(bool)
     {   
         //Is challenge started or waiting participant?
         require(newQuestion.qState && !newQuestion.qWait, "Challenge not started yet!");
@@ -114,7 +119,8 @@ contract SmartContract is Ownable{
                 for(uint i=0;i<Winners.length;i++)
                     Winners.pop();
             }
-            Winners.push(msg.sender);   
+            Winners.push(msg.sender);
+            return true;   
         }
         else{
             //Decreasing msg.sender answer count
@@ -122,6 +128,7 @@ contract SmartContract is Ownable{
                 if(Users[i].uWallet == checkParticipant(msg.sender).uWallet)
                     Users[i].uAnswerCount--;
             }
+            return false;
         }
     }
 

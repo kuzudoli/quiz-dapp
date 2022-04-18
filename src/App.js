@@ -16,15 +16,17 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   // const data = useSelector((state) => state.data);
   // const web3 = new Web3(Web3.givenProvider);
-
-  const [account, setAccount] = useState(null);
-  const [challengeCost, setChallengeCost] = useState(null)
-  const [smartContract, setSmartContract] = useState(null);
-  const [user, setUser] = useState(null);
-  const [question,setQuestion] = useState("Question not found!");
-  const [userCount,setUserCount] = useState(0);
-  const [userAnswer,setUserAnswer] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  const [account, setAccount] = useState(null);//string
+  const [challengeCost, setChallengeCost] = useState(null)//integer
+  const [smartContract, setSmartContract] = useState(null);//string
+  const [user, setUser] = useState(null);//object 
+  const [question,setQuestion] = useState("Question not found!");//object
+  const [userCount,setUserCount] = useState(0);//integer
+  const [userAnswer,setUserAnswer] = useState(null);//string
+  const [winnerList, setWinnerList] = useState(null);
+  const [answerState, setAnswerState] = useState(null);
+  
   //Data load
   const loadBlockchainData = async () => {
     if (typeof window.ethereum !== 'undefined') {
@@ -51,6 +53,9 @@ function App() {
         const usersCount = await smartContract.methods.getUsers().call();
         setUserCount(usersCount.length)
 
+        let winnerList = await smartContract.methods.getWinners().call();
+        setWinnerList(winnerList);
+
         if(account){
           const user = await smartContract.methods.checkParticipant(web3.utils.toChecksumAddress(account)).call();
           if(user.uWallet !== "0x0000000000000000000000000000000000000000"){
@@ -60,6 +65,10 @@ function App() {
           }
           //console.log(user);
         }
+      }
+      if(localStorage.getItem("aState")){
+        setAnswerState(localStorage.getItem("aState"))
+        console.log(answerState);
       }
 			window.ethereum.on('accountsChanged', function (accounts) {
         setAccount(accounts[0])
@@ -81,19 +90,28 @@ function App() {
   //Check answer
   const checkAnswer = async () => {
     try {
-      await smartContract.methods.checkAnswer(userAnswer).send({from: account})
+      setLoading(true);
+      const aState = await smartContract.methods.checkAnswer(userAnswer).call({from:account})
+      await smartContract.methods.checkAnswer(userAnswer).send({from:account})
+      if(aState){
+        document.getElementById("myModal").style.display="block";
+      }
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   }
 
   //Join Challenge
   const joinChallenge = async () => {
     try {
+      setLoading(true)
       await smartContract.methods.joinChallenge().send({from: account, value: challengeCost})
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -141,11 +159,10 @@ function App() {
         cost={challengeCost}
         prize={question.qPrize}
         join={joinChallenge}
+        winnerList={winnerList}
       />
     )
   }
-  
-  
 }
 
 export default App;

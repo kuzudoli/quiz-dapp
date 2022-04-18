@@ -1,6 +1,6 @@
 import React from 'react'
 
-const WaitRoom = ({qState}) => {
+const WaitRoom = ({qState, winnerList}) => {
     return (
         <div className='messageContainer'>
             <h1>Waiting for other users...</h1>
