@@ -3,26 +3,10 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Question.sol";
+import "./User.sol";
 
 contract SmartContract is Ownable{
-
-    struct Question{
-        string qDesc;
-        uint qPrize;//must be wei
-        uint qDate;
-        string[3] qHints;
-        string qAnswer;
-        bool qState;
-        bool qWait;
-    }
-
-    struct User{
-        address uWallet;
-        uint uHintCount;//0->3
-        uint uAnswerCount;//2->0
-        bool isJoined;
-    }
-
     uint public challengeCost = 0.0001 ether;
     uint public challengePrize = 0.0002 ether;
     uint public challengeAnswerCount = 2;
@@ -116,7 +100,7 @@ contract SmartContract is Ownable{
 
             //Only the last 10 winner storing
             if(Winners.length == 10){
-                for(uint i=0;i<Winners.length;i++)
+                for(uint i=0;i<10;i++)
                     Winners.pop();
             }
             Winners.push(msg.sender);

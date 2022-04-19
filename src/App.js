@@ -135,6 +135,7 @@ function App() {
             question={question}
             inputEvent={getUserAnswer}
             submitEvent={checkAnswer}
+            loading={loading}
             />
           <Hints
             userCount={userCount}
@@ -160,6 +161,7 @@ function App() {
         prize={question.qPrize}
         join={joinChallenge}
         winnerList={winnerList}
+        loading={loading}
       />
     )
   }

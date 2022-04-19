@@ -1,7 +1,7 @@
 import React from 'react'
 import Web3 from 'web3';
 
-const Question = ({ question,inputEvent,submitEvent}) => {
+const Question = ({ question,inputEvent,submitEvent,loading}) => {
     const web3 = new Web3(Web3.givenProvider);
     return (
         <>
@@ -24,7 +24,7 @@ const Question = ({ question,inputEvent,submitEvent}) => {
                         <div className="question">
                             <p>{question.qDesc}</p>
                         </div>
-                        <div className="answer">
+                        <div className="answer" style={{opacity:loading?"0.5":"1",pointerEvents:loading?"none":"all"}}>
                             <input id="answerInput" type="text" onInput={inputEvent} />
                             <button id="answerSubmit" type="submit" onClick={submitEvent}>SUBMIT</button>
                         </div>
