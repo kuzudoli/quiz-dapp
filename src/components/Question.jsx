@@ -5,14 +5,23 @@ const Question = ({ question,inputEvent,submitEvent,loading}) => {
     const web3 = new Web3(Web3.givenProvider);
     return (
         <>
-            <div id="myModal" className="modal">
+            <div id="winModal" className="modal">
                 <div className="modal-content">
                     <span className="close" onClick={() => {
-                        document.getElementById("myModal").style.display="none";
+                        document.getElementById("winModal").style.display="none";
                         window.location.reload();
                     }}>&times;</span>
                     <h1>🎉Congratulations🎉</h1>
                     <h1>Check your wallet for your prize</h1>
+                </div>
+            </div>
+            <div id="answerCountModal" className="modal">
+                <div className="modal-content">
+                    <span className="close" onClick={() => {
+                        document.getElementById("answerCountModal").style.display="none";
+                        window.location.reload();
+                    }}>&times;</span>
+                    <h1>You can't answer anymore, sorry 😥</h1>
                 </div>
             </div>
             <div className="half-top">

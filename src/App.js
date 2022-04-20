@@ -16,6 +16,7 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   // const data = useSelector((state) => state.data);
   // const web3 = new Web3(Web3.givenProvider);
+  const web3 = new Web3(window.ethereum);
   const [loading, setLoading] = useState(false);
   const [account, setAccount] = useState(null);//string
   const [challengeCost, setChallengeCost] = useState(null)//integer
@@ -31,7 +32,7 @@ function App() {
   const loadBlockchainData = async () => {
     if (typeof window.ethereum !== 'undefined') {
       
-      const web3 = new Web3(window.ethereum)
+      // const web3 = new Web3(window.ethereum)
 			const accounts = await web3.eth.getAccounts()
       
 			if (accounts.length > 0) {
@@ -94,12 +95,19 @@ function App() {
       const aState = await smartContract.methods.checkAnswer(userAnswer).call({from:account})
       await smartContract.methods.checkAnswer(userAnswer).send({from:account})
       if(aState){
-        document.getElementById("myModal").style.display="block";
+        document.getElementById("winModal").style.display="block";
+      }else{
+        const user = await smartContract.methods.checkParticipant(web3.utils.toChecksumAddress(account)).call();
+        console.log("count: " + user.uAnswerCount);
+        if(user.uAnswerCount <= 0){
+          document.getElementById("answerCountModal").style.display="block";
+        }
       }
     } catch (error) {
       console.log(error);
     }
     setLoading(false);
+    // window.location.reload();
   }
 
   //Join Challenge
