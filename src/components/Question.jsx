@@ -15,6 +15,7 @@ const Question = ({ question,inputEvent,submitEvent,loading}) => {
 
         if(timeleft<0){
             console.log("timeout!");
+            // window.location.replace("http://localhost:3000");
         }
         else{
             document.getElementById("time").innerHTML = days + ":" + hours + ":" + minutes +  ":" + seconds;

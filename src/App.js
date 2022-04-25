@@ -7,7 +7,7 @@ import Web3 from "web3";
 
 import SmartContract from './contracts/SmartContract.json'
 
-import { ConnectButton, Question, Hints, Join, WaitRoom } from './components/index';
+import { ConnectButton, Question, Hints, Join, WaitRoom, Timeout } from './components/index';
 
 import './App.css'
 
@@ -134,43 +134,50 @@ function App() {
     );
   }
 
-  
-  if(user){
-    if(user.isJoined && question.qState){
-      return(
-        <div className="container">
-          <Question 
-            question={question}
-            inputEvent={getUserAnswer}
-            submitEvent={checkAnswer}
-            loading={loading}
+  if(new Date().getTime() <= question.qDate){
+    if(user){
+      if(user.isJoined && question.qState){
+        return(
+          <div className="container">
+            <Question 
+              question={question}
+              inputEvent={getUserAnswer}
+              submitEvent={checkAnswer}
+              loading={loading}
+              />
+            <Hints
+              userCount={userCount}
+              question={question}
+              user={user}
+              />
+          </div>
+        )
+      }else{
+        return(
+          <div className="container">
+            <WaitRoom
+              qState={question.qState}
             />
-          <Hints
-            userCount={userCount}
-            question={question}
-            user={user}
-            />
-        </div>
-      )
+          </div>
+        )
+      }
     }else{
       return(
-        <div className="container">
-          <WaitRoom
-            qState={question.qState}
-          />
-        </div>
+        <Join
+          question={question}
+          cost={challengeCost}
+          prize={question.qPrize}
+          join={joinChallenge}
+          winnerList={winnerList}
+          loading={loading}
+        />
       )
     }
   }else{
     return(
-      <Join
-        question={question}
-        cost={challengeCost}
-        prize={question.qPrize}
-        join={joinChallenge}
-        winnerList={winnerList}
-        loading={loading}
-      />
+      <div className="container">
+        <Timeout/>
+      </div>
     )
   }
 }
