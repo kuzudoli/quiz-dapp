@@ -3,6 +3,23 @@ import Web3 from 'web3';
 
 const Question = ({ question,inputEvent,submitEvent,loading}) => {
     const web3 = new Web3(Web3.givenProvider);
+    let countDownDate = new Date(question.qDate*1000).getTime();
+    setInterval(function() {
+        let now = new Date().getTime();
+        let timeleft = countDownDate - now;
+    
+        let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+        if(timeleft<0){
+            console.log("timeout!");
+        }
+        else{
+            document.getElementById("time").innerHTML = days + ":" + hours + ":" + minutes +  ":" + seconds;
+        }
+    }, 1000);
     return (
         <>
             <div id="winModal" className="modal">
@@ -27,7 +44,8 @@ const Question = ({ question,inputEvent,submitEvent,loading}) => {
             <div className="half-top">
                     <header className="question-header">
                         <h3 id="prize">PRIZE: {web3.utils.fromWei(question.qPrize,"ether")} ETH</h3>
-                        <h3 id="time">{new Date(question.qDate*1000).toLocaleString()}</h3>
+                        {/* <h3 id="time">{new Date(question.qDate*1000).toLocaleString()}</h3> */}
+                        <h3 id="time">time</h3>
                     </header>
                     <main>
                         <div className="question">
