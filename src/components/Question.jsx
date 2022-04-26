@@ -3,7 +3,7 @@ import Web3 from 'web3';
 
 const Question = ({ question,inputEvent,submitEvent,loading}) => {
     const web3 = new Web3(Web3.givenProvider);
-    let countDownDate = new Date(question.qDate*1000).getTime();
+    let countDownDate = question.qDate;
     setInterval(function() {
         let now = new Date().getTime();
         let timeleft = countDownDate - now;
@@ -15,7 +15,6 @@ const Question = ({ question,inputEvent,submitEvent,loading}) => {
 
         if(timeleft<0){
             console.log("timeout!");
-            // window.location.replace("http://localhost:3000");
         }
         else{
             document.getElementById("time").innerHTML = days + ":" + hours + ":" + minutes +  ":" + seconds;
