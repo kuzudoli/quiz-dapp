@@ -1,0 +1,50 @@
+/* 
+mavi #688bf0 
+turuncu #ff974a
+kirli beyaz #f8f8f8
+*/
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    padding: 10px;
+}
+.container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 97vw;
+    height: 94vh;
+    background-color: #688bf0;
+    border-radius: 25px;
+}
+.connect-btn{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 170px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 25px;
+    text-decoration: none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:600;
+    color: #ff974a;
+    background-color: #f8f8f8;
+    text-align: center;
+    transform: translate(-50%,-30%);
+    border-radius: 20px;
+    box-shadow: 0 5px 0 0 rgba(0, 0, 0, .2);
+}
+.connect-btn img{
+    vertical-align:middle;
+    margin-right: 5px;
+    margin-top: -3px;
+}
+.connect-btn:active{
+    top: 31%;
+    box-shadow: none;
+
+}
